@@ -227,7 +227,7 @@ label span:after {
     </p>
 </div>
 <a href="/media/{{book.bookpdf}}" downlaod target="_blank">Read Book</a> -->
-<div>
+<div style="margin-top:100px;">
     <div  class="imageDiv" id="ImageDiv">
         <img src="/media/{{book.bookThumbnail}}" alt="book image"  style="float:left; width:200px; height:270px;padding-left: 10px;">
     </div>
@@ -238,8 +238,9 @@ label span:after {
 
 </div>
 
-<div style="clear: both;padding-left:10px;font-size: larger;color:white;width:15%;text-align: center;">
-    <a href="/book-publisher/book/{{book.id}}/read" style="color:white">Read Book</a>
+<div style="clear: both;font-size: larger;color:white;width:11%;text-align: center;">
+    <br>
+    <a href="/book-publisher/book/{{book.id}}/read" style="color:white"><button class="btn btn-outline-success">Read Book</button></a>
 </div>
 
 <form action="/book-publisher/book/like/" method="post">
@@ -259,8 +260,12 @@ label span:after {
         
     </div>
     {% else %}
+    <div class="button" style="margin-top:50px;margin-left:40px">
     
     <input type="checked" id="liked" class="input"><label for="liked" class="label"><span></span></label>
+    {% comment %} <input type="checked" id="liked" class="input"><label for="liked" class="label">{% if user_liked_book %}<span style=" --clr: #ff3c41; "></span>{%else%}<span></span>{%endif%}</label> {% endcomment %}
+    <button type="submit" id="submit_button" style="display: none;"></button>
+</div>
     
     
     {% endif %}

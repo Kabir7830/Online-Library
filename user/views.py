@@ -1,8 +1,8 @@
-from .models import User
 from django.contrib.auth import login,logout,authenticate
 from django.shortcuts import redirect,render,HttpResponse
-from django.contrib import messages
 from BookPublisher.models import Books
+from django.contrib import messages
+from .models import User
 
 
 
@@ -45,6 +45,8 @@ def signUpUser(request):
             return redirect("/user/signup")
     return render(request,"user_signup.html")
 
+
+
 # login user
 def userLogin(request):
     if request.method == "POST":
@@ -60,6 +62,7 @@ def userLogin(request):
     return render(request,"login.html")
 
 
+
 # login directly after signup
 def Login(request,email,password):
     user = authenticate(request,email=email,password=password)
@@ -70,6 +73,7 @@ def Login(request,email,password):
 
 
 
+# logout user
 def logoutUser(request,user_id):
     if user_id == request.user.id:
         if request.method == "POST":
@@ -77,6 +81,7 @@ def logoutUser(request,user_id):
             messages.success(request,"logged Out")
             return redirect("/")
     return HttpResponse("invalid path")
+
 
 
 # delete user
@@ -94,6 +99,7 @@ def deleteUser(request,user_id):
 
 
 
+# edit user details
 def editUser(request,user_id):
     user = User.objects.filter(user_ptr_id=user_id)
     if request.method == 'POST':
@@ -108,9 +114,11 @@ def editUser(request,user_id):
         )
         messages.success(request,"updated")
         return redirect(f"/user/{user_id}/edit")
-    return render(request,"edit_user.html")
+    return render(request,"edit_user.html",{"user":user.first()})
 
 
+
+# showing books added by particular user
 def myBooks(request):
     if request.user.is_anonymous:
         return redirect("/user/login")
@@ -119,6 +127,8 @@ def myBooks(request):
     return render(request,"myBooks.html",{"books":books,"draftbooks":draftbooks})
         
 
+
+# checking if user is genunin by security questions
 def forgot_password(request):
     if request.method == "POST":
         email = request.POST.get('email')
@@ -140,6 +150,8 @@ def forgot_password(request):
             # return redirect("user/reset-password")
 
 
+
+# resetting user password 
 def reset_password(request):
     if request.method == "POST":
         new_password = request.POST.get('password')
@@ -160,7 +172,7 @@ def reset_password(request):
 
 
 
-            
+      
 
 """
 

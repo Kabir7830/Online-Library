@@ -1,17 +1,18 @@
-from django.shortcuts import render,redirect,HttpResponse
-from django.db.models import Q
-from rest_framework.views import APIView
-from .models import *
-from .bookForm import *
-from django.contrib import messages
-from rest_framework.response import Response
-from django.http import FileResponse, Http404
+from django.shortcuts import render,redirect,HttpResponse, HttpResponseRedirect
 from django.views.decorators.clickjacking import xframe_options_exempt
-import datetime
 from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.contrib import messages
+from django.db.models import Q
+from .models import *
+import datetime
+import random
 
 #==================== Create ===================#
 
+
+# adding a new book
 def newBook(request):
     if not(request.user.is_authenticated):
         messages.warning(request,"please login to add books!")
@@ -46,16 +47,7 @@ def newBook(request):
             messages.error(request,"something went wrong!")
             return redirect("/books/")
     return render(request,"add_book.html")
-    #     if form.is_valid():
-    #         form.save()
-    #         messages.success(request,"Successfuly Created")
-    #         return redirect("/books/")
-    #     else:
-    #         messages.error(request,f"{form.errors}")
-    #         print(form.errors)
-    # else:
-    #     form = bookPublisherForm
-    # return render(request,"add_book.html",{"form":form})
+
 
 
 # Book Descripition 
@@ -65,13 +57,15 @@ def bookDescription(request,id):
     book_likes = bookLikes.objects.filter(book_id = id)
     likes = len(book_likes)
     recomendedBooks = Books.objects.filter(Q(gener__icontains = book.gener) | Q(authorName__icontains = book.authorName)).exclude(id = id)[:5]
+    if not(recomendedBooks):
+        recomendedBooks = Books.objects.all().exclude(id = id)
+        recomendedBooks = random.sample(list(recomendedBooks),3)
     user_feedback = BookFeedback.objects.filter(book_id = id).filter(user_id = request.user.id).first()
     return render(request,"bookDescription.html",{"book":book,"recomendedBooks":recomendedBooks,"user_feedback":user_feedback,"gener":book.gener,"likes":likes,"user_liked_book":user_liked_book}) 
 
 
-#==============================================#
 
-
+# Edit Book details
 def editBook(request,book_id):
     book = Books.objects.filter(id = book_id).filter(publisher_id= request.user.id)
     if request.method == "POST":
@@ -98,6 +92,7 @@ def editBook(request,book_id):
     
 
 
+# Delete Book 
 def deleteBook(request,book_id):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -111,6 +106,8 @@ def deleteBook(request,book_id):
         return redirect("/user/login")
 
 
+
+# Like a book
 def bookLikesView(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -125,29 +122,19 @@ def bookLikesView(request):
                 return redirect(f"/book-publisher/book/{book_id}/")
         else:
             return redirect(f"/book-publisher/book/{book_id}/")
+    messages.warning(request,"Login required")
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-# class readBook(TemplateView):
-#     template_name = "read_book.html"
-#     def get_context_data(self, id,*args, **kwargs):
-#         book = Books.objects.filter(id =id)
-#         context = {}
-#         context['book'] = book.first()
-#         return context
-
-def readBook2(request,id):
-    try:
-        book = Books.objects.filter(id =id)
-        return FileResponse(open(f'media/{book.first().bookpdf}', 'rb'), content_type='application/pdf')
-    except FileNotFoundError:
-        raise Http404()
-
+# read book 
 @xframe_options_exempt
 def readBook(request,id):
     book = Books.objects.filter(id = id)
     return render(request,"read_book.html",{"book":book.first()})
 
 
+
+# read book class
 class Read_Book_API(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "read_book.html"
@@ -157,9 +144,16 @@ class Read_Book_API(APIView):
         book = Books.objects.filter(id = id)
         books = Books.objects.filter(gener__icontains = book.first().gener).exclude(id = id)
         return Response({"book":book.first(),"books":books[0:2]})
-    
 
+
+
+# book feedback
 def book_feedback(request,book_id):
+    
+    if not(request.user.is_authenticated):
+        messages.warning(request,"login required!")
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+    
     existing_feedback =BookFeedback.objects.filter(book_id = book_id).filter(user_id = request.user.id)
     book = Books.objects.filter(id=book_id ).first()
     
@@ -190,11 +184,15 @@ def book_feedback(request,book_id):
             return redirect(f"/book-publisher/book/{book_id}")
 
 
+
+# get user feedbacks
 def show_user_feedback(request):
     user_feedback = BookFeedback.objects.filter(book_id__publisher_id = request.user.id)
     return render(request,"feedback.html",{"user_feedback":user_feedback,"user_feedback_length":user_feedback.filter(is_opened = False).count()})
 
 
+
+# marking feedback as read
 def mark_feedback_read(request,feedback_id):
         user_feedback = BookFeedback.objects.filter(id = feedback_id).update(
             is_opened = True
@@ -202,3 +200,8 @@ def mark_feedback_read(request,feedback_id):
         
         messages.success(request,"message read")
         return redirect("/book-publisher/book/feedback/view")
+
+
+
+
+
