@@ -1,0 +1,85 @@
+<title>Publish Book</title>
+{%extends 'mainMaster1.html'%}
+{%block contentarea%}
+{%load static%}
+<link rel="stylesheet" href="{%static 'css/newbook.css'%}">
+
+</div>
+<br><br>
+<label for="">
+    <h2>Add Your Own Book</h2>
+</label>
+{% if request.user.is_authenticated %}
+<div class="form-div">
+    <form action="" method="post" enctype="multipart/form-data">
+        {%csrf_token%}
+        <div class="form-group">
+            <label for="">Name</label>
+            <input name="name" id="id_name" placeholder="Full Name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="">Author Name</label>
+            <input name="authorName" id="id_authorName" placeholder="Author Name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="">Book Title</label>
+            <input name="bookTitle" id="id_bookTitle" placeholder="Book Title" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="">Book Description</label>
+            <input name="description" id="id_description" placeholder="Description" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="">Thumbnail</label>
+            <input type="file" name="bookThumbnail" id="id_bookThumbnail" placeholder="Choose Thumbnail" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="">Gener</label>
+            <input name="gener" id="id_gener" placeholder="Gener" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="">Release Date</label>
+            <input type="date" name="releaseDate" id="id_releaseDate" placeholder="DD-MM-YYYY" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="">Book Pdf</label>
+            <input type="file" name="bookpdf" id="id_bookpdf" placeholder="Choose PDf file" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="">Publish Status</label>
+            <select name="published" id="id_published" class="form-control" style="width: 42%;">
+                <option value="True" published>Publish</option>
+                <option value="False">Save Draft</option>
+            </select>
+        </div>
+
+        <div style="display: none;">
+            {%if request.user.is_superuser%}
+            <input type="text" value="0" id="id_publisher_id" name="publisher_id">
+            {%else%}
+            <input type="text" value="{{request.user.id}}" id="id_publisher_id" name="publisher_id">
+            {%endif%}
+        </div>
+       <br>
+        <button type="submit" class="btn btn-success">Save</button>
+
+    </form>
+</div>
+{% else %}
+<div style="width: 100%; text-align: center;">
+    <br>
+    <br>
+
+        <span style="color:white;font-size:20px">Create an account or login to add your own books.</span>
+        <br>
+            <a href="/user/signup"><button class="btn btn-primary">Create</button></a>
+            <a href="/user/login"><button class="btn btn-primary">Login</button> </a>
+
+
+
+
+</div>
+{% endif %}
+
+
+{%endblock%}

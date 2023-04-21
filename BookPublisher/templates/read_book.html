@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%load static%}
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <!--jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{book.bookTitle}}</title>
+    <style>
+        body{
+            /* {% comment %} background: #2c3e50; {% endcomment %} */
+            background-image: url("{% static 'images/bg2.jpg'%}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-blend-mode: darken;
+            overflow: hidden;
+              
+        }
+        .card{
+        background: none;
+        border: none;
+        height: 280px;
+        width: 200px;
+        max-width: 200px;
+        margin: 1rem;
+        cursor: pointer;
+      }
+  
+  .container{
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+      -webkit-perspective: 1000px;
+              perspective: 1000px;
+              max-width: 200px;
+              padding: 0;
+  }
+  
+  .front,
+  .back{
+    background-size:cover;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.25);
+    border-radius: 10px;
+      background-position: center;
+      -webkit-transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      -o-transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1), -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      -webkit-backface-visibility: hidden;
+              backface-visibility: hidden;
+      text-align: center;
+      height: auto;
+      border-radius: 10px;
+      color:black;
+        height: 280px;
+    
+  }
+  .front{
+    max-width: 230px;
+  }
+  
+  .back{
+    background: #cedce7;
+    background: -webkit-linear-gradient(45deg,  #cedce7 0%,#596a72 100%);
+    background: -o-linear-gradient(45deg,  #cedce7 0%,#596a72 100%);
+    background: linear-gradient(45deg,  #cedce7 0%,#596a72 100%);
+   
+  }
+  
+  .front:after{
+      position: absolute;
+      top: 0;
+      left: 0;
+      /* z-index: 1; */
+      width: 100%;
+      height: 100%;
+      content: '';
+      border-radius: 10px;
+  }
+  .container:hover .front,
+  .container:hover .back{
+      -webkit-transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      -o-transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1), -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+  }
+  
+  .back{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+  }
+  
+  .inner{
+      -webkit-transform: translateY(-50%) translateZ(60px) scale(0.94);
+              transform: translateY(-50%) translateZ(60px) scale(0.94);
+        top:20px;
+      position: relative;
+      -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+      outline: 1px solid transparent;
+      -webkit-perspective: inherit;
+              perspective: inherit;
+      z-index: 2;
+      top:130px;
+  }
+  
+  .container .back{
+      -webkit-transform: rotateY(180deg);
+              transform: rotateY(180deg);
+      -webkit-transform-style: preserve-3d;
+              transform-style: preserve-3d;
+  }
+  
+  .container .front{
+      -webkit-transform: rotateY(0deg);
+              transform: rotateY(0deg);
+      -webkit-transform-style: preserve-3d;
+              transform-style: preserve-3d;
+  }
+  
+  .container:hover .back{
+    -webkit-transform: rotateY(0deg);
+            transform: rotateY(0deg);
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+  }
+  
+  .container:hover .front{
+    -webkit-transform: rotateY(-180deg);
+            transform: rotateY(-180deg);
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+  }
+
+ .card-group{
+    justify-content: center;
+ }
+
+
+ @media screen and (max-width:567px) {
+        .card-group{
+                align-items: center;
+                display: inline-flex;
+                flex-direction: row;
+        }
+        .card{
+                background: none;
+                border: none;
+                height: 280px;
+                width: 190px;
+                max-width: 190px;
+                margin: 1rem;
+                cursor: pointer;
+                margin-left: 11px;
+                
+                margin-left: 5px;
+            }
+
+        .card-group .a {
+                width: 200px;
+        }
+
+        .nav{
+                display: none;
+        }
+        
+ }
+
+
+
+   
+        
+    </style>
+</head>
+<body>
+<div style="position: absolute;background-color: black; width:100%;height:100%;z-index: -1; opacity: .6;">
+
+</div>
+<div style="width:15%;float: left;text-align: center;">
+    <img src="/media/{{book.bookThumbnail}}" alt="img" style="width:200px">
+    <br>
+    <p style="color:white;text-align: left;margin-left: 14px;">
+        <label for="">Released On : {{book.releaseDate}}</label>
+        <label for="">Author : {{book.authorName}}</label>
+        <label for="">Publisher : {{book.name}}</label>
+        <label for="">Title : {{book.bookTitle}}</label>
+    </p>
+</div>
+
+<div style="width:70%;float: left;">
+    
+        <iframe src="/media/{{book.bookpdf}}#toolbar=0&view=FitH" width="100%" height="740px" type="" style="z-index: 2;cursor: none;" ></iframe>
+    
+</div>
+
+<div style="width: 15%;float: left;text-align: center;max-height:900px;overflow-y: auto;overflow-x:hidden;" id="id_root">
+    <!-- {%for Book in books%}
+    <a href="/book-publisher/book/{{Book.id}}"><img src="/media/{{Book.bookThumbnail}}" alt="" width="200px"></a>
+    {%endfor%} -->
+    <script type="text/javascript">
+    
+    
+        let Length = Number("{{length}}");
+        let quo = Math.floor(Length/4);
+        let rem = (Length%4);
+        let total_groups = quo+rem;
+        let count = 0;
+        let group_number = 1;
+        let col;
+        let heading ;
+        let front;
+        let inner;
+        let innerback;
+        let description;
+        let container;
+        let card_group;
+        let breaktag = document.createElement("br");
+        let root=document.querySelector("div[id='id_root']");
+        let back;
+        let cols;
+        var div_no = 5
+        $(window).resize(resizeFn())
+    
+        function resizeFn()
+        {
+          if (screen.width<600)
+          {
+            div_no = 2
+          }
+          else{
+            div_no = 5
+          }
+        }
+        // let label = document.querySelector("label[id='search_label']");
+        // label.innerHTML = 'Results for : {{queryName}}';
+    
+    
+      document.write("{%for Book in books%}")
+      // for (let i=1;i<=Number("{{length}}");i++)
+        {% comment %} if ("{{Book.gener | lower}}" == "{{query | lower}}" || "{{Book.BookTitle | lower}}" == "{{query | lower}}" || "{{Book.authorName | lower}}" == "{{query | lower}}" || "{{Book.name | lower}}" == "{{query | lower}}") {% endcomment %}
+      {
+        {
+            if ((count%div_no)==0)
+            {
+                
+              
+               card_group = document.createElement('div');
+               Object.assign(card_group,{className:'card-group',id: `card_group${group_number++}`});
+            }
+            card =document.createElement('div');
+            Object.assign(card, {className: 'card'});
+            
+            container=document.createElement('div');
+            Object.assign(container, {className: 'container'});
+            
+            back=document.createElement('div');
+            Object.assign(back, {className: 'back'});
+        
+            front = document.createElement('div');
+            Object.assign(front, {className: 'front',style:"background-image:url(/media/{{Book.bookThumbnail}})"});
+            
+            hyperlink = document.createElement('a');
+            Object.assign(hyperlink, {href:"/book-publisher/book/{{Book.id}}/",title:"{{Book.BookTitle}}"});
+        
+            inner = document.createElement('div');
+            Object.assign(inner, {className:'inner'});
+           
+            innerback = document.createElement('div');
+            Object.assign(innerback, {className:'inner'});
+        
+            heading = document.createElement('p');
+            heading.innerHTML = '{{Book.BookTitle}}';
+            Object.assign(heading,{style:'font-size:small;z-index:1;'});
+        
+            description = document.createElement('p');
+            description.innerHTML = "<b>Publisher Name: {{Book.name}}<br>Author: {{Book.authorName}} <br> Gener: {{Book.gener}} <br> Description: {{Book.description | slice:'0:170'}}...</b>";
+            Object.assign(description,{className:'description'});
+        
+            innerback.appendChild(description);
+            back.appendChild(innerback);
+            front.appendChild(inner);
+            container.appendChild(back);
+            container.appendChild(front);
+            card.appendChild(container);
+            hyperlink.appendChild(card);
+            card_group.appendChild(hyperlink);
+            root.append(breaktag)
+            root.appendChild(card_group);
+            
+        
+            count = count+1;
+        }
+      }
+     
+      document.write("{%endfor%}");
+    
+        
+    </script>
+</div>
+</body>
+</html>

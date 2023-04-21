@@ -1,0 +1,62 @@
+{%extends 'mainMaster1.html'%}
+{%block contentarea%}
+{%load static%}
+
+<!-- Styles -->
+<style>
+  .card {
+    max-width: 250px;
+    
+  }
+</style>
+<!--  -->
+
+
+<!-- links -->
+<link rel="stylesheet" href="{% static 'css/flipcard.css' %}">
+<link rel="stylesheet" href="{% static 'css/Utils.css' %}">
+<!--  -->
+
+
+<!-- menu div -->
+<div  class="menu-dark menuDiv">
+
+
+    <!-- search form -->
+    <div class="form-div ml-auto">
+
+      
+
+    </div>
+    <!--  -->
+</div>
+<!--  -->
+
+
+  <!-- serached heading -->
+<div style="margin-top:50px;">
+  {% if gener %}
+  <label class="gener">{{gener | capfirst}}</label>
+  {%endif%}
+</div>
+<!--  -->
+
+
+<!-- Block booksarea -->
+<div  id="id_root">
+  {% block booksarea %}
+  {% endblock booksarea %}
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!--  -->
+
+<br>
+
+
+{% endblock %}

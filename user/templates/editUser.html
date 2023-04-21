@@ -1,0 +1,91 @@
+{% extends 'mainMaster1.html' %}
+{% block contentarea %}
+{%load static%}
+<link rel="stylesheet" href="{% static 'css/editUser.css' %}">
+<link rel="stylesheet" href="{% static 'css/modal.css' %}">
+<link rel="stylesheet" href="{% static 'css/sideBarToggler.css' %}">
+
+<br>
+<br>
+{% if request.user.is_authenticated %}
+<div>
+  <h2 style="color:white;">
+    Edit User Profile
+  </h2>
+</div>
+<br>
+<form method="post">
+    {%csrf_token%}
+    <div class="form-group">
+        <label for="">Name</label>
+        <br>
+        <input type="text" name="first_name" id="id_first_name" value="{{user.first_name}}" class="form-control" >
+        <input type="text" name="last_name" id="id_last_name" value="{{user.last_name}}" class="form-control" >
+    </div>
+    <div class="form-group">
+        <label for="">Email</label>
+        <input type="text" name="email" id="id_email" value="{{user.email}}" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="">Username</label>
+        <input type="text" name="username" id="id_username" value="{{user.username}}" class="form-control">
+    </div>
+
+    <br><br>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <!-- <a href="/user/{{request.user.id}}/delete"><button type="button" class="btn btn-danger">Delete Account</button></a> -->
+    <button id="myBtn10" class="btn btn-danger" type="button"><img src="{%static 'images/delete2.png'%}" width="20px" height="20px"></img>Account</button>
+</form>
+
+<!-- The Modal -->
+<div id="MydeleteModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close" onclick="cancelRequest2()">&times;</span>
+    <p>
+        <form action="/user/{{request.user.id}}/delete" method="post">
+            {%csrf_token%}
+            <label for="" style="color:black">Are you sure you want to delete your account?</label>
+            <br>
+            <button type="submit" class="btn btn-danger">Yes</button>
+            <button type="button" class="btn btn-primary" onclick="cancelRequest2()">No</button>
+        </form>
+    </p>
+  </div>
+
+
+<script>
+  // Get the modal
+  var modal2 = document.getElementById("MydeleteModal");
+
+  // Get the button that opens the modal
+  var btn = document.getElementById("myBtn10");
+
+  btn.onclick = function() {
+    modal2.style.display = "block";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal2) {
+      modal2.style.display = "none";
+    }
+  }
+  function cancelRequest2()
+  {
+    modal2.style.display = "none";
+  }
+</script> 
+</div>
+{% else %}
+<div style="width:100%; text-align:center">
+  <h2>
+    <a href="/user/login">Login</a>  
+  </h2>
+</div>
+{% endif %}
+
+{% endblock contentarea %}
+
+

@@ -1,0 +1,177 @@
+{% extends 'mainMaster1.html' %}
+{% block contentarea %}
+{%load static%}
+<style>
+    .form-control{
+        width: 35%;
+    }
+    label{
+        color:white;
+    }
+</style>
+
+<form action="" method="post" enctype="multipart/form-data">
+    {%csrf_token%}
+    <div class="form-group" >
+        <label for="">Name</label>
+        <input type="text" id="name" name="name" value="{{book.name}}" class="form-control">
+    </div>
+    <div class="form-group" >
+        <label for="">Author Name</label>
+        <input type="text" id="id_authorName" name="authorName" value="{{book.authorName}}" class="form-control">
+    </div>
+    <div class="form-group" >
+        <label for="">Book Title</label>
+        <input type="text" id="id_bookTitle" name="bookTitle" value="{{book.bookTitle}}" class="form-control">
+    </div>
+    
+    <div class="form-group" >
+        <label for="">Relsease Date</label>
+        <input type="date" id="id_releaseDate" name="releaseDate" value="{{book.releaseDate}}" class="form-control">
+    </div>
+    <div class="form-group" >
+        <label for="">Gener</label>
+        <input type="text" id="id_gener" name="gener" value="{{book.gener}}" class="form-control">
+    </div>
+    <div class="form-group" >
+        <label for="">Book Description</label>
+        <textarea type="text" id="id_description" name="description" class="form-control">{{book.description}}</textarea>
+    </div>
+    <div class="form-group">
+        <label for="">Publish Status</label>
+        {%if book.published == 1%}
+        <select name="published" id="id_published" class="form-control" style="width: 35%;">
+            <option value="True" selected>Publish</option>
+            <option value="False">Save Draft</option>
+        </select>
+        {%else%}
+        <select name="published" id="id_published" class="form-control" style="width: 35%;">
+            <option value="False" selected>Save Draft</option>
+            <option value="True">Publish</option>
+        </select>
+        {%endif%}
+    </div>
+    
+    <div class="form-group" >
+        
+       <img src="{%static 'images/pdf.png'%}" alt="img" width="30px" height="40px"><span id="pdf-id"> <a href="/media/{{book.bookpdf}}" style="color:white">{{book.bookpdf}}</a></span>
+       <br> 
+       <input style="display: none;" type="file" id="id_bookpdf" name="bookpdf" value="{{book.bookpdf}}" class="form-control" name2="file1">
+        <input disabled style="display: none;" type="file" id="id_bookpdf" name="bookpdf" value="{{book.bookpdf}}" class="form-control" name2="file2">
+        <button class="btn btn-secondary" type="button" onclick="changeFile()" id="fileBtn1">Change Book File</button>
+        <button class="btn btn-danger" type="button" onclick="reverseFile()" style="display: none;" id="fileBtn2">Cancel</button>
+    </div>
+    <div class="form-group" >
+        <img src="/media/{{book.bookThumbnail}}" alt="book image" width="120px" height="200px" id="bookThumbnail-id">
+        <br>
+        <input type="file" id="id_bookThumbnail" name="bookThumbnail" value="{{book.bookThumbnail}}" class="form-control" style="display: none; width:18%" name2="first-input">
+        <input type="file" id="id_bookThumbnail" name="bookThumbnail" value="{{book.bookThumbnail}}" class="form-control" style="display: none; width:18%" name2="second-input">
+        <button type="button" onclick="makeChanges()" style="cursor: pointer;" id="change-thumbnail" class="btn-secondary btn">change Thumbnail</button>
+        <button type="button" onclick="reverseChange()" style="cursor: pointer;display: none;" id="change-thumbnail2" class="btn-danger btn" >cancel</button>
+    </div>
+    <script>
+
+        let input1 = document.querySelector("input[name2='first-input']");    
+        let input2 = document.querySelector("input[name2='second-input']");
+        let thumbnail = document.getElementById("bookThumbnail-id");
+        let button1 = document.getElementById("change-thumbnail");
+        let button2 = document.getElementById("change-thumbnail2");
+        function makeChanges()
+        {
+            console.log(input1,input2)
+            thumbnail.style.display = "none";
+            input1.disabled = true;
+            input2.disabled = false;
+            input2.style.display = "";
+            button1.style.display = "none"
+            button2.style.display = "";
+
+        }
+        function reverseChange()
+        {
+            
+            thumbnail.style.display = "";
+            input1.disabled = false;
+            input2.disabled = true;
+            input2.style.display = "none";
+            button2.style.display = "none";
+            button1.style.display = "";
+
+        }
+    </script>
+    <script>
+        let file1=document.querySelector('input[name2="file1"]');
+        let file2=document.querySelector('input[name2="file2"]');
+        let btn1=document.getElementById('fileBtn1');
+        let btn2=document.getElementById('fileBtn2');
+        let pdf = document.getElementById('pdf-id');
+        function changeFile()
+        {
+            btn1.style.display = "none"
+            btn2.style.display = "";
+            file1.disabled = true;
+            file2.disabled = false;
+            file2.style.display = "";
+            file1.style.display = "none"
+            pdf.style.display = "none";
+            
+        }
+        function reverseFile()
+        {
+            btn1.style.display = ""
+            btn2.style.display = "none";
+            file1.disabled = false;
+            file2.disabled = true;
+            file2.style.display = "none";
+            pdf.style.display = "";
+        }
+    </script>
+    <br>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button class="btn btn-danger" id="myBtn12" type="button">Delete Book</button>
+</form>
+<div id="deleteBook" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close no" onclick="cancelRequest3()">&times;</span>
+      <p>
+          <form action="/book-publisher/book/{{book.id}}/delete" method="post">
+              {%csrf_token%}
+              
+              <label for="" style="color:black">Are you sure you want to delete this Book?</label>
+              <br>
+              <button type="submit" class="btn btn-danger">Yes</button>
+              <button type="button" class="btn btn-primary" onclick="cancelRequest3()">No</button>
+          </form>
+      </p>
+    </div>
+  
+  </div>
+  
+<script>
+    // Get the modal
+var modal12 = document.getElementById("deleteBook");
+
+// Get the button that opens the modal
+var btn12 = document.getElementById("myBtn12");
+
+
+// When the user clicks on the button, open the modal
+btn12.onclick = function() {
+  modal12.style.display = "block";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal12) {
+    modal12.style.display = "none";
+  }
+}
+function cancelRequest3()
+{
+    modal12.style.display = "none";
+}
+</script>
+
+
+{% endblock contentarea %}

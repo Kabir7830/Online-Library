@@ -1,0 +1,32 @@
+User-Friendely interface (hard)
+
+User
+    Signup
+    Login
+    Like (favourite books)
+    recent wathed books
+    Profile
+        profile update
+        books read
+        book publish/writing
+
+Books 
+    categories
+        Author
+        Gener
+        Type
+
+
+
+Login
+logout
+paging
+book like and rank  --> https://dev.to/radualexandrub/how-to-add-like-unlike-button-to-your-django-blog-5gkg
+
+
+
+online recomendations
+help chat bot
+
+
+forgot passwd

@@ -1,0 +1,35 @@
+
+ .sideMenuDiv{
+    position:fixed;
+    border : none;
+    width: 50%;
+    text-align: center;
+    height:103%;
+    background-color: rgb(103, 9, 190);
+    z-index: 1;
+    margin-left: 50%;
+    
+    
+  }
+
+@keyframes openDiv {
+    from{
+            margin-left: 200%;
+    }
+    to{
+            margin-right: 50%;
+    }
+}
+
+.sideMenuButtons{
+    border: none;
+    background-color: transparent;
+    color: white;
+}
+/* .sideMenuButtons{
+    width:100px;
+    height: 35px;
+    border: none;
+    border-radius: 12px;
+    font-size: large;
+} */

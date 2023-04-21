@@ -1,0 +1,427 @@
+{% extends 'mainMaster1.html' %}
+{% block contentarea %}
+{%load static%}
+<style>
+.imageDiv{
+    float: left;width: 210px;
+}
+/*#ff3c41*/
+/*#444857*/
+
+:root {
+	--u: 1.5vmin;
+	--clr: #777;
+	--bg: #444857;
+}
+
+
+.button {
+	position: relative;
+    width: calc(var(--u) * 8);
+    height: calc(var(--u) * 8);
+}
+
+.input { display: none; }	
+
+.label {
+    background: var(--bg);
+    width:100%;
+    height: 100%;
+    position: relative;
+    border-radius: calc(var(--u) * 1.5);
+	cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.label:before {
+    content: "{{likes}}";
+    position: absolute;
+    min-width: 50%;
+    left: 25%;
+    text-align: center;
+    top: 0;
+	bottom: 0;
+    background: var(--bg);
+    border-radius: calc(var(--u) * 2);
+    font-size: calc(var(--u) * 2);
+    font-family: Arial, Helvetica, serif;
+    padding: calc(var(--u) * 0.5);
+    box-sizing: border-box;
+    color: var(--clr);
+    line-height: calc(var(--u) * 2.25);
+    z-index: -1;
+	transition: all 0.5s ease 0s;
+	animation: counter-bot 1s ease 0s;
+}
+
+.input:checked + .label:before {
+    content: "{{likes | add:1}}";
+    color: #fff;
+	background: #ff3c41; 
+	
+	bottom: inherit;
+	transition: all 0.5s ease 0s;
+	animation: counter-top 1s ease 0s;
+}
+
+@keyframes counter-top {
+	70% { top: calc(var(--u) * -4.75); }
+}
+
+@keyframes counter-bot {
+	70% { 
+		top: inherit; 
+		bottom: calc(var(--u) * -5); 
+	}
+}
+
+
+.label:after {	
+	content: "";
+    width: calc(var(--u) * 8);
+    height: calc(var(--u) * 8);
+    position: absolute;
+    border-radius: 100%;
+    box-sizing: border-box;
+    z-index: -2;
+    animation: disc-gray 1s ease 0s, spin-gray 0.65s ease-in-out 0.25s;
+    transform: rotate(0deg);
+	--pos: 95%;
+    background: 
+		radial-gradient(circle at 50% 50%, #fff0 0 62%, var(--bg) 63% 65%, #fff0 66% 100%), 
+		radial-gradient(circle at 50% var(--pos), var(--bg) 0 4%, #fff0 4.5% 100%);
+}
+
+@keyframes spin-gray {
+	100% {
+		transform: rotate(-360deg);
+	}
+}
+
+@keyframes spin-red {
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes disc-gray {
+	70% {
+		width: calc(var(--u) * 19);
+		height: calc(var(--u) * 19);
+	}
+}
+
+@keyframes disc-red {
+	70% {
+		width: calc(var(--u) * 19);
+		height: calc(var(--u) * 19);
+	}
+}
+
+.input:checked + .label:after {
+	--bg: #ff3c41;
+	--pos: 5%;
+    animation: disc-red 1s ease 0s, spin-red 0.65s ease-in-out 0.25s;
+}
+
+
+
+
+
+
+.label span {
+	position: absolute;
+	width: 126%;
+	height: 114%;
+	animation: dislike 0.5s ease 0s;
+}
+/*
+label span:before {
+    content: "";
+    width: 2px;
+    height: 2px;
+    position: absolute;
+    border-radius: calc(var(--u) * 5);
+    transform: translate(calc(var(--u) * 2.235), calc(var(--u) * 4.5));
+    border: calc(var(--u) * 2.71) solid transparent;
+    border-top: calc(var(--u) * 2.9) solid var(--clr);
+}
+
+label span:after {
+    content: "";
+    background: 
+		radial-gradient(circle at 40% 45%, var(--clr) 0 calc(var(--u) * 1.25), #fff0 calc(var(--u) * 1.325) 100%), 
+		radial-gradient(circle at 60% 45%, var(--clr) 0 calc(var(--u) * 1.25), #fff0 calc(var(--u) * 1.325) 100%);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+*/
+.label span:before {
+    content: "";
+    position: absolute;
+    border-radius: 0.25vmin;
+    border: 3.6vmin solid #fff0;
+    border-top: 4vmin solid var(--clr);
+    margin-top: 7.65vmin;
+    margin-left: 4vmin;
+}
+
+.label span:after {
+    content: "";
+    position: absolute;
+    background: var(--clr);
+    width: 5vmin;
+    height: 5vmin;
+    border-radius: 100%;
+    margin-left: 3.35vmin;
+    margin-top: 3.5vmin;
+    box-shadow: 3.5vmin 0 0 0 var(--clr);
+}
+
+.input:checked + .label span {
+	--clr: #ff3c41; 
+	animation: like 0.5s ease 0s;
+}
+
+
+@keyframes like {
+	75% { transform: scale(1.25); }
+}
+@keyframes dislike {
+	75% { transform: scale(0.75); }
+}
+
+
+
+
+
+{% if user_liked_book %}
+.button:hover .label span:before, .button:hover .label span:after {
+    --clr: #ff3c41;
+}
+{%else%}
+.button:hover .label span:before, .button:hover .label span:after {
+    --clr: #9d4958;
+}
+{%endif%}
+
+.button:hover .input:checked + .label span:before, .button:hover .input:checked + .label span:after {
+    --clr: #ff3c41; 
+}
+</style>
+<!-- links -->
+<link rel="stylesheet" href="{% static 'css/flipcard.css' %}">
+<link rel="stylesheet" href="{% static 'css/Utils1.css' %}">
+<link rel="stylesheet" href="{% static 'css/like.css' %}">
+<!--  -->
+
+<!-- <div style="margin-left:20px;" >
+    <p style="float:left; color:white;">
+        
+        <img src="/media/{{book.bookThumbnail}}"  style="float:left; border-color:transparent; width:200px; height:270px;border-style: solid; border-width: 12px;">
+        
+        {{book.description}}
+    </p>
+</div>
+<a href="/media/{{book.bookpdf}}" downlaod target="_blank">Read Book</a> -->
+<div>
+    <div  class="imageDiv" id="ImageDiv">
+        <img src="/media/{{book.bookThumbnail}}" alt="book image"  style="float:left; width:200px; height:270px;padding-left: 10px;">
+    </div>
+
+    <div style="float: left;width: 74%;margin-top: 10px;color:white;font-size: large;">
+        <p>Author: {{book.authorName}}<br>Gener: {{book.gener}}<br>{{book.description}}</p>
+    </div>
+
+</div>
+
+<div style="clear: both;padding-left:10px;font-size: larger;color:white;width:15%;text-align: center;">
+    <a href="/book-publisher/book/{{book.id}}/read" style="color:white">Read Book</a>
+</div>
+
+<form action="/book-publisher/book/like/" method="post">
+    <div style="display: none;">
+        {%csrf_token%}
+        <input id="id_book_id" name="book_id" type="text" value="{{book.id}}">
+        <input id="id_user_id" name="user_id" type="text" value="{{request.user.id}}">
+    </div>
+    {% if request.user.is_authenticated %}
+    <div class="button" style="margin-top:50px;margin-left:40px">
+        
+        <input type="checked" id="liked" class="input"><label for="liked" class="label">{% if user_liked_book %}<span style=" --clr: #ff3c41; "></span>{%else%}<span></span>{%endif%}</label>
+        
+        {% comment %} <input type="checked" id="liked" class="input"><label for="liked" class="label"></label> {% endcomment %}
+        
+        <button type="submit" id="submit_button" style="display: none;"></button>
+        
+    </div>
+    {% else %}
+    
+    <input type="checked" id="liked" class="input"><label for="liked" class="label"><span></span></label>
+    
+    
+    {% endif %}
+    <script>
+        document.getElementById("liked").addEventListener('click',()=>{
+            console.log("clicked");
+            document.getElementById("submit_button").click();
+        })
+    </script>
+</form>
+<br><br>
+<br><br>
+<div id="feedback" style="margin-left: 20px;max-width: 30%;">
+    <fieldset style="border:solid 1px;border-color: white;border-radius: 20px;background-color: rgba(0, 0, 0, 0.453);">
+        <br>
+        <p style="color:white;font-size: larger;margin-left: 20px;">FeedBack</p>
+        <form action="/book-publisher/book/{{book.id}}/feedback" method="post">
+            {%csrf_token%}
+            {%if user_feedback%}
+        <textarea cols="55" rows="5" placeholder="Message" style="border-radius: 20px;background-color: rgba(245, 245, 245, 0.782);margin-left: 20px;" name="feedback">{{user_feedback.feedback}}</textarea>
+        <br><br>
+        <button class="btn btn-primary" style="margin-left:40px">update</button>
+        {%else%}
+        <textarea cols="55" rows="5" placeholder="Message" style="border-radius: 20px;background-color: rgba(245, 245, 245, 0.782);margin-left: 20px;" name="feedback"></textarea>
+        <br><br>
+        <button class="btn btn-primary" style="margin-left:40px">Submits</button>
+        {%endif%}
+        <br><br>
+        </form>
+    </fieldset>
+    <br>
+    </div>
+
+
+<div style="clear: both;">
+    <br><br>
+    <label class="gener">Recomended Books</label>
+    <div id="recomendedBooks" >
+        {%if recomendedBooks%}
+        {%else%}
+        <p style="color:white;margin-left:40px">No recomended books</p>
+        {%endif%}
+    </div>
+</div>
+<script type="text/javascript">
+
+    let count = 0;
+    let group_number = 1;
+    let col;
+    let heading ;
+    let front;
+    let inner;
+    let innerback;
+    let description;
+    let container;
+    let card_group;
+    let breaktag = document.createElement("br");
+    let recomendedBooks=document.querySelector("div[id='recomendedBooks']");
+    let back;
+    let cols;
+    var div_no = 5
+    $(window).resize(resizeFn())
+  
+    function resizeFn()
+    {
+      if (screen.width<600)
+      {
+        div_no = 2
+      }
+      else{
+        div_no = 5
+      }
+    }
+
+  document.write("{%for book in recomendedBooks%}")
+  // for (let i=1;i<=Number("{{length}}");i++)
+    
+  {
+    {
+        if ((count%div_no)==0)
+        {
+            
+          
+           card_group = document.createElement('div');
+           Object.assign(card_group,{className:'card-group',id: `card_group${group_number++}`,style:"justify-content:left"});
+        }
+        card =document.createElement('div');
+        Object.assign(card, {className: 'card'});
+        
+        container=document.createElement('div');
+        Object.assign(container, {className: 'container'});
+        
+        back=document.createElement('div');
+        Object.assign(back, {className: 'back'});
+    
+        front = document.createElement('div');
+        Object.assign(front, {className: 'front',style:"background-image:url(/media/{{book.bookThumbnail}})"});
+        
+        hyperlink = document.createElement('a');
+        Object.assign(hyperlink, {href:"/book-publisher/book/{{book.id}}/",title:"{{book.bookTitle}}"});
+    
+        inner = document.createElement('div');
+        Object.assign(inner, {className:'inner'});
+       
+        innerback = document.createElement('div');
+        Object.assign(innerback, {className:'inner'});
+    
+        heading = document.createElement('p');
+        heading.innerHTML = '{{book.bookTitle}}';
+        Object.assign(heading,{style:'font-size:small;z-index:1;'});
+    
+        description = document.createElement('p');
+        description.innerHTML = "<b>Publisher Name: {{book.name}}<br>Author: {{book.authorName}} <br> Gener: {{book.gener}} <br> Description: {{book.description | slice:'0:170'}}...</b>";
+        Object.assign(description,{className:'description'});
+    
+        innerback.appendChild(description);
+        back.appendChild(innerback);
+        front.appendChild(inner);
+        container.appendChild(back);
+        container.appendChild(front);
+        card.appendChild(container);
+        hyperlink.appendChild(card);
+        card_group.appendChild(hyperlink);
+        recomendedBooks.append(breaktag)
+        recomendedBooks.appendChild(card_group);
+        
+    
+        count = count+1;
+    }
+  }
+ 
+  document.write("{%endfor%}");
+</script>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock contentarea %}
+    
+<!-- <script>
+    function likeMessage(){
+        let message = document.getElementById('message');
+        message.innerHTML = "please login to like books";
+    }
+    function like()
+    {
+        let like_btn = document.getElementById("like-btn");
+        if (like_btn.style.backgroundColor == 'red')
+        {
+            like_btn.style.backgroundColor = 'whitesmoke';
+        }
+        else{
+            like_btn.style.backgroundColor = 'red';
+        }
+    }
+</script> -->

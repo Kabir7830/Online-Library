@@ -1,0 +1,397 @@
+{% extends 'books.html' %}
+{% block  booksarea%}
+<style>
+  .gener{
+    color:#ffbc51;
+  }
+</style>
+<div id="id_trending_div" style="width: 90%;margin-left: 5%;">
+  <div style="width:100%; text-align: center;">
+    <label for="" class="gener">----------------------- Trending Books -----------------------</label>
+  </div>
+  <script>
+    var Length = Number("{{length}}");
+      var quo = Math.floor(Length/4);
+      var rem = (Length%4);
+      var total_groups = quo+rem;
+      var count = 0;
+      var group_number = 1;
+      var col;
+      var heading ;
+      var front;
+      var inner;
+      var innerback;
+      var description;
+      var container;
+      var card_group;
+      var breaktag = document.createElement("br");
+      var root=document.querySelector("div[id='id_trending_div']");
+      var back;
+      var cols;
+      var div_no = 5
+      $(window).resize(resizeFn())
+    
+      function resizeFn()
+      {
+        if (screen.width<600)
+        {
+          div_no = 2
+        }
+        else{
+          div_no = 5
+        }
+      }
+      document.write("{%for book in trending_books%}")
+      {
+        if ((count%div_no)==0)
+        {
+            
+          
+           card_group = document.createElement('div');
+           Object.assign(card_group,{className:'card-group',id: `card_group${group_number++}`});
+        }
+        card =document.createElement('div');
+        Object.assign(card, {className: 'card'});
+        
+        container=document.createElement('div');
+        Object.assign(container, {className: 'container'});
+        
+        back=document.createElement('div');
+        Object.assign(back, {className: 'back'});
+    
+        front = document.createElement('div');
+        Object.assign(front, {className: 'front',style:"background-image:url(/media/{{book.book_id.bookThumbnail}})"});
+        
+        hyperlink = document.createElement('a');
+        Object.assign(hyperlink, {href:"/book-publisher/book/{{book.book_id.id}}/",title:"{{book.book_id.bookTitle}}"});
+    
+        inner = document.createElement('div');
+        Object.assign(inner, {className:'inner'});
+       
+        innerback = document.createElement('div');
+        Object.assign(innerback, {className:'inner'});
+    
+        heading = document.createElement('p');
+        heading.innerHTML = '{{book.book_id.bookTitle}}';
+        Object.assign(heading,{style:'font-size:small;z-index:1;'});
+    
+        description = document.createElement('p');
+        description.innerHTML = "<b>Author: {{book.book_id.authorName}} <br> Gener: {{book.book_id.gener}} <br> Description: {{book.book_id.description | slice:'0:200'}}...</b>";
+        Object.assign(description,{className:'description'});
+    
+        innerback.appendChild(description);
+        back.appendChild(innerback);
+        front.appendChild(inner);
+        container.appendChild(back);
+        container.appendChild(front);
+        card.appendChild(container);
+        hyperlink.appendChild(card);
+        card_group.appendChild(hyperlink);
+        root.append(breaktag)
+        root.appendChild(card_group);
+        
+    
+        count = count+1;
+      }
+      document.write("{%endfor%}")
+    </script>
+</div>
+<br>
+
+<br>
+<div id="id_fiction_div" style="width: 90%;margin-left: 5%;">
+  <div style="width:100%; text-align: center;">
+
+    <label for="" class="gener">----------------------- Fictional Books -----------------------</label>
+  </div>
+  <script>
+    var Length = Number("{{length}}");
+      var quo = Math.floor(Length/4);
+      var rem = (Length%4);
+      var total_groups = quo+rem;
+      var count = 0;
+      var group_number = 1;
+      var col;
+      var heading ;
+      var front;
+      var inner;
+      var innerback;
+      var description;
+      var container;
+      var card_group;
+      var breaktag = document.createElement("br");
+      var root=document.querySelector("div[id='id_fiction_div']");
+      var back;
+      var cols;
+      var div_no = 5
+      $(window).resize(resizeFn())
+    
+      function resizeFn()
+      {
+        if (screen.width<600)
+        {
+          div_no = 2
+        }
+        else{
+          div_no = 5
+        }
+      }
+      document.write("{%for book in fiction_books%}")
+      {
+        if ((count%div_no)==0)
+        {
+            
+          
+           card_group = document.createElement('div');
+           Object.assign(card_group,{className:'card-group',id: `card_group${group_number++}`});
+        }
+        card =document.createElement('div');
+        Object.assign(card, {className: 'card'});
+        
+        container=document.createElement('div');
+        Object.assign(container, {className: 'container'});
+        
+        back=document.createElement('div');
+        Object.assign(back, {className: 'back'});
+    
+        front = document.createElement('div');
+        Object.assign(front, {className: 'front',style:"background-image:url(/media/{{book.bookThumbnail}})"});
+        
+        hyperlink = document.createElement('a');
+        Object.assign(hyperlink, {href:"/book-publisher/book/{{book.id}}/",title:"{{book.bookTitle}}"});
+    
+        inner = document.createElement('div');
+        Object.assign(inner, {className:'inner'});
+       
+        innerback = document.createElement('div');
+        Object.assign(innerback, {className:'inner'});
+    
+        heading = document.createElement('p');
+        heading.innerHTML = '{{book.bookTitle}}';
+        Object.assign(heading,{style:'font-size:small;z-index:1;'});
+    
+        description = document.createElement('p');
+        description.innerHTML = "<b>Author: {{book.authorName}} <br> Gener: {{book.gener}} <br> Description: {{book.description | slice:'0:200'}}...</b>";
+        Object.assign(description,{className:'description'});
+    
+        innerback.appendChild(description);
+        back.appendChild(innerback);
+        front.appendChild(inner);
+        container.appendChild(back);
+        container.appendChild(front);
+        card.appendChild(container);
+        hyperlink.appendChild(card);
+        card_group.appendChild(hyperlink);
+        root.append(breaktag)
+        root.appendChild(card_group);
+        
+    
+        count = count+1;
+      }
+      document.write("{%endfor%}")
+    </script>
+    <div style="width: 90%;text-align: right;">
+      <a href="/book-gener/fiction/" class="gener" style="font-size: medium !important;">View more</a>
+    </div>
+</div>
+<br>
+<br>
+<div id="id_thriller_div" style="width: 90%;margin-left: 5%;">
+  <div style="width:100%; text-align: center;">
+
+    <label for="" class="gener">------------------------- Thriller Books -------------------------</label>
+  </div>
+  <script>
+    var Length = Number("{{length}}");
+      var quo = Math.floor(Length/4);
+      var rem = (Length%4);
+      var total_groups = quo+rem;
+      var count = 0;
+      var group_number = 1;
+      var col;
+      var heading ;
+      var front;
+      var inner;
+      var innerback;
+      var description;
+      var container;
+      var card_group;
+      var breaktag = document.createElement("br");
+      var root=document.querySelector("div[id='id_thriller_div']");
+      var back;
+      var cols;
+      var div_no = 5
+      $(window).resize(resizeFn())
+    
+      function resizeFn()
+      {
+        if (screen.width<600)
+        {
+          div_no = 2
+        }
+        else{
+          div_no = 5
+        }
+      }
+      document.write("{%for book in thriller_books%}")
+      {
+        if ((count%div_no)==0)
+        {
+            
+          
+           card_group = document.createElement('div');
+           Object.assign(card_group,{className:'card-group',id: `card_group${group_number++}`});
+        }
+        card =document.createElement('div');
+        Object.assign(card, {className: 'card'});
+        
+        container=document.createElement('div');
+        Object.assign(container, {className: 'container'});
+        
+        back=document.createElement('div');
+        Object.assign(back, {className: 'back'});
+    
+        front = document.createElement('div');
+        Object.assign(front, {className: 'front',style:"background-image:url(/media/{{book.bookThumbnail}})"});
+        
+        hyperlink = document.createElement('a');
+        Object.assign(hyperlink, {href:"/book-publisher/book/{{book.id}}/",title:"{{book.bookTitle}}"});
+    
+        inner = document.createElement('div');
+        Object.assign(inner, {className:'inner'});
+       
+        innerback = document.createElement('div');
+        Object.assign(innerback, {className:'inner'});
+    
+        heading = document.createElement('p');
+        heading.innerHTML = '{{book.bookTitle}}';
+        Object.assign(heading,{style:'font-size:small;z-index:1;'});
+    
+        description = document.createElement('p');
+        description.innerHTML = "<b>Author: {{book.authorName}} <br> Gener: {{book.gener}} <br> Description: {{book.description | slice:'0:200'}}...</b>";
+        Object.assign(description,{className:'description'});
+    
+        innerback.appendChild(description);
+        back.appendChild(innerback);
+        front.appendChild(inner);
+        container.appendChild(back);
+        container.appendChild(front);
+        card.appendChild(container);
+        hyperlink.appendChild(card);
+        card_group.appendChild(hyperlink);
+        root.append(breaktag)
+        root.appendChild(card_group);
+        
+    
+        count = count+1;
+      }
+      document.write("{%endfor%}")
+    </script>
+     <div style="width: 90%;text-align: right;">
+      <a href="/book-gener/thriller/" class="gener" style="font-size: medium !important;">View more</a>
+    </div>
+</div>
+<br>
+<br>
+
+
+
+<div id="id_all_div" style="width: 90%;margin-left: 5%;">
+
+  <div style="width:100%; text-align: center;">
+
+    <label for="" class="gener">------------------------- Others Books -------------------------</label>
+  </div>
+<script>
+var Length = Number("{{length}}");
+  var quo = Math.floor(Length/4);
+  var rem = (Length%4);
+  var total_groups = quo+rem;
+  var count = 0;
+  var group_number = 1;
+  var col;
+  var heading ;
+  var front;
+  var inner;
+  var innerback;
+  var description;
+  var container;
+  var card_group;
+  var breaktag = document.createElement("br");
+  var root=document.querySelector("div[id='id_all_div']");
+  var back;
+  var cols;
+  var div_no = 5
+  $(window).resize(resizeFn())
+
+  function resizeFn()
+  {
+    if (screen.width<600)
+    {
+      div_no = 2
+    }
+    else{
+      div_no = 5
+    }
+  }
+  document.write("{%for book in books%}")
+  {
+    if ((count%div_no)==0)
+    {
+        
+      
+       card_group = document.createElement('div');
+       Object.assign(card_group,{className:'card-group',id: `card_group${group_number++}`});
+    }
+    card =document.createElement('div');
+    Object.assign(card, {className: 'card'});
+    
+    container=document.createElement('div');
+    Object.assign(container, {className: 'container'});
+    
+    back=document.createElement('div');
+    Object.assign(back, {className: 'back'});
+
+    front = document.createElement('div');
+    Object.assign(front, {className: 'front',style:"background-image:url(/media/{{book.bookThumbnail}})"});
+    
+    hyperlink = document.createElement('a');
+    Object.assign(hyperlink, {href:"/book-publisher/book/{{book.id}}/",title:"{{book.bookTitle}}"});
+
+    inner = document.createElement('div');
+    Object.assign(inner, {className:'inner'});
+   
+    innerback = document.createElement('div');
+    Object.assign(innerback, {className:'inner'});
+
+    heading = document.createElement('p');
+    heading.innerHTML = '{{book.bookTitle}}';
+    Object.assign(heading,{style:'font-size:small;z-index:1;'});
+
+    description = document.createElement('p');
+    description.innerHTML = "<b>Author: {{book.authorName}} <br> Gener: {{book.gener}} <br> Description: {{book.description | slice:'0:200'}}...</b>";
+    Object.assign(description,{className:'description'});
+
+    innerback.appendChild(description);
+    back.appendChild(innerback);
+    front.appendChild(inner);
+    container.appendChild(back);
+    container.appendChild(front);
+    card.appendChild(container);
+    hyperlink.appendChild(card);
+    card_group.appendChild(hyperlink);
+    root.append(breaktag)
+    root.appendChild(card_group);
+    
+
+    count = count+1;
+  }
+  document.write("{%endfor%}")
+</script>
+<div style="width: 90%;text-align: right;">
+  <a href="/books/all" class="gener" style="font-size: medium !important;">View more</a>
+</div>
+</div>
+
+{% endblock booksarea %}
+

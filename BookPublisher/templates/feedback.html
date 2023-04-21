@@ -1,0 +1,144 @@
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<!--jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+{% extends 'mainMaster1.html' %}
+
+{% block contentarea %}
+<style>
+   /*
+
+RESPONSTABLE 2.0 by jordyvanraaij
+  Designed mobile first!
+
+If you like this solution, you might also want to check out the 1.0 version:
+  https://gist.github.com/jordyvanraaij/9069194
+
+*/
+.responstable {
+  margin: 1em 0;
+  width: 80%;
+  overflow: hidden;
+  background: #FFF;
+  color: #024457;
+  border-radius: 10px;
+  border: 1px solid #167F92;
+}
+.responstable tr {
+  border: 1px solid #D9E4E6;
+}
+.responstable tr:nth-child(odd) {
+  background-color: #EAF3F3;
+}
+.responstable th {
+  display: none;
+  border: 1px solid #FFF;
+  background-color: #167F92;
+  color: #FFF;
+  padding: 1em;
+}
+.responstable th:first-child {
+  display: table-cell;
+  text-align: center;
+}
+.responstable th:nth-child(2) {
+  display: table-cell;
+}
+.responstable th:nth-child(2) span {
+  display: none;
+}
+.responstable th:nth-child(2):after {
+  content: attr(data-th);
+}
+@media (min-width: 480px) {
+  .responstable th:nth-child(2) span {
+    display: block;
+  }
+  .responstable th:nth-child(2):after {
+    display: none;
+  }
+}
+.responstable td {
+  display: block;
+  word-wrap: break-word;
+  max-width: 7em;
+}
+.responstable td:first-child {
+  display: table-cell;
+  text-align: center;
+  border-right: 1px solid #D9E4E6;
+}
+@media (min-width: 480px) {
+  .responstable td {
+    border: 1px solid #D9E4E6;
+  }
+}
+.responstable th, .responstable td {
+  text-align: left;
+  margin: .5em 1em;
+}
+@media (min-width: 480px) {
+  .responstable th, .responstable td {
+    display: table-cell;
+    padding: 1em;
+  }
+}
+
+
+
+h1 {
+  font-family: Verdana;
+  font-weight: normal;
+  color: #024457;
+}
+h1 span {
+  color: #167F92;
+}
+
+</style>
+
+<div style="display: flex;justify-content: center; margin-top: 30px;">
+    
+
+    <table class="responstable">
+  
+        <tr>
+          <th>Email</th>
+          <th data-th="Driver details"><span>Feedback</span></th>
+          <th>Book Title</th>
+          <th></th>
+        </tr>
+        {%for ufb in user_feedback%}
+        <tr>
+          <td>
+            {%if ufb.user_id.email%}
+            {{ufb.user_id.email}}
+            {%else%}
+            booky_books_user
+            {%endif%}
+        </td>
+          <td>{{ufb.feedback}}</td>
+          <td><a href="/book-publisher/book/{{ufb.book_id.id}}/">{{ufb.book_id.bookTitle}}</a></td>
+          {%if ufb.is_opened == True%}
+          <td>✔️</td>
+          {%else%}
+          <td>
+            <form action="/book-publisher/book/{{ufb.id}}/feedback/mark-read" method="post">
+                {%csrf_token%}
+                <button type="submit" class="btn btn-primary">Mark as read</button>
+            </form>
+            </td>
+          {%endif%}
+        </tr>
+        {%endfor%}
+        
+        
+        
+      </table>
+</div>
+
+{% endblock contentarea %}

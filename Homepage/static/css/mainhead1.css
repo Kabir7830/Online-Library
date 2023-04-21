@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css?family=Kanit:900');
+ .myhead {
+	 color: #31E862;
+	 font-family: "Kanit";
+	 font-size: 9vw;
+	 line-height: 1em;
+	 margin: 0;
+	 text-align: center;
+	 top: 50%;
+	 transform: translateY(-50%);
+	 width: 100%;
+	 text-shadow: 0 1px 0 black, 0 2px 0 black, 0 3px 0 black, 0 4px 0 black, 0 5px 0 black, 0 6px 0 black, 0 7px 0 black, 0 8px 0 black, 0 0 5px ;
+  
+     }
+/* @keyframes uptodown {
+    0%{margin-top:-100px;
+         opacity: .0;
+    }
+  
+    100%{margin-top:0px;
+    opacity:1;}    
+} */
+
+
+.mytext,
+.myshadow {
+    font-size: 7vw;
+    letter-spacing: 20px;
+    font-family: Bad Script;
+    color: #fff;
+}
+
+.mytext {
+    color: #333
+}
+
+.myshadow {
+    text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #228DFF, 0 0 70px #228DFF, 0 0 80px #228DFF, 0 0 100px #228DFF, 0 0 150px #228DFF;
+}
+
+.glow {
+    animation: neon1 linear infinite 3s;
+    will-change: opacity;
+}
+
+.blink {
+    animation: blink linear infinite 6s;
+}
+
+
+@keyframes neon1 {
+    20% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 0.6;
+    }
+}
+
+
+@keyframes blink {
+    70% {
+        opacity: 1;
+    }
+    79% {
+        opacity: 0;
+    }
+    81% {
+        opacity: 1;
+    }
+    82% {
+        opacity: 0;
+    }
+    83% {
+        opacity: 1;
+    }
+    92% {
+        opacity: 0;
+    }
+    92.5% {
+        opacity: 1;
+    }
+}
+
+
+ 

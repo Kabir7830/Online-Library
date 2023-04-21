@@ -1,0 +1,86 @@
+{% extends 'books.html' %}
+{% block  booksarea%}
+
+<script>
+let Length = Number("{{length}}");
+  let quo = Math.floor(Length/4);
+  let rem = (Length%4);
+  let total_groups = quo+rem;
+  let count = 0;
+  let group_number = 1;
+  let card;
+  let heading ;
+  let front;
+  let image;
+  let description;
+  let content;
+  let card_group;
+  let breaktag = document.createElement("br");
+  let fiction=document.querySelector("div[id='id_fiction']");
+  let back;
+  document.write("{%for book in books%}")
+  // for (let i=1;i<=Number("{{length}}");i++)
+
+  {
+    if ((count%5)==0)
+    {
+        
+      card_group=document.createElement("div");
+      Object.assign(card_group, {className: 'card-group', style: 'margin-left:40px;', id: `card_group${group_number++}`});
+      
+    }
+    card =document.createElement('div');
+    Object.assign(card, {className: 'card'});
+    
+    content=document.createElement('div');
+    Object.assign(content, {className: 'content'});
+    
+    back=document.createElement('div');
+    back.innerHTML = "Author: {{book.authorName}}\nGener: {{book.gener}}\nDescription: {{book.description |truncatechars:250}}";
+    Object.assign(back, {className: 'back'});
+
+    heading = document.createElement("h3");
+    Object.assign(heading, {className: 'title'});
+    heading.innerText = "{{book.bookTitle | capfirst}}";
+
+    front = document.createElement('div');
+    Object.assign(front, {className: 'front'});
+    
+    description = document.createElement('p');
+    description.innerHTML = "Author: {{book.authorName}}\nGener: {{book.gener}}\nDescription: {{book.description |truncatechars:250}}";
+    {% comment %} description.inneHTML = "Hello"; {% endcomment %}
+    Object.assign(description, {className: 'description'});
+
+    hyperlink = document.createElement('a');
+    Object.assign(hyperlink, {href:"/book-publisher/book/{{book.id}}/",title:"Author: {{book.authorName}}\nGener: {{book.gener}}\nDescription: {{book.description |truncatechars:250}}"});
+
+    image = document.createElement('img');
+    Object.assign(image, {src: "/media/{{book.bookThumbnail}}",className:'cardImage'});
+
+    front.appendChild(image);
+    content.appendChild(front);
+    content.appendChild(back);
+    {% comment %} back.appendChild(description); {% endcomment %}
+    front.appendChild(heading);
+    card.appendChild(content);
+    {% comment %} card.appendChild(rect); {% endcomment %}
+    card_group.appendChild(card);
+    fiction.append(breaktag)
+    fiction.appendChild(card_group);
+    
+
+    count = count+1;
+  }
+  document.write("{%endfor%}")
+</script>
+{% comment %} <div class="card">
+  <div class="content">
+    <div class="front">
+      <img src="/media/bookthumbnails/book1.jpg" style="width:100px;height:150px;">
+    </div>
+    <div class="back">
+      Back!
+    </div>
+  </div> {% endcomment %}
+{% endblock booksarea %}
+

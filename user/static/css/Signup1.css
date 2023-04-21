@@ -1,0 +1,43 @@
+label {
+    color:white;
+}
+
+.form-div{
+    height: auto;
+    margin-left:20px;
+    font-size: large;
+    
+}
+#id_first_name{
+    width:13%;
+    display:inline;
+}
+
+#id_last_name{
+    width:12%;
+    display:inline;
+}
+label{
+    color:white;
+}
+
+input,p{
+    max-width: 25%;
+}
+select{
+    max-width: 25%;
+}
+p{
+    font-size: smaller;
+    color: white;
+}
+@media screen and (max-width:567px) {
+
+    input,select,p{
+        max-width: 80%;
+    }
+    #id_first_name, #id_last_name{
+        width: 40%;
+    }
+}
+

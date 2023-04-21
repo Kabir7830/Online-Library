@@ -1,0 +1,396 @@
+<html>
+
+<head>
+  {%load static%}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--CSS link-->
+  <link rel="stylesheet" href="{% static 'css/button.css' %}">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <!--jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="{% static 'css/myButtons.css'%}">
+  <link rel="stylesheet" href="{% static 'css/gener.css'%}">
+  <link rel="stylesheet" href="{% static 'css/mainhead1.css'%}">
+  <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+  <link rel="stylesheet" href="{% static 'css/sideBarToggler.css' %}">
+  <link rel="shortcut icon" href="{%static 'images/favicon.png'%}" type="image/x-icon">
+  <title>Booky Books</title>
+  <style>
+    body {
+      /* {% comment %} background: #2c3e50; {% endcomment %} */
+      background-image: url("{% static 'images/bg1.jpg'%}");
+      background-size: cover;
+      background-repeat: no-repeat;
+      overflow-y: hidden;
+    }
+
+    ul {
+      padding: 0;
+      list-style-type: none;
+    }
+
+    li {
+      font-size: 25px;
+      width: 8em;
+      height: 2em;
+      color: orange;
+      border-left: 0.08em solid;
+      position: relative;
+      margin-top: 0.8em;
+      cursor: pointer;
+    }
+
+    li::before,
+    li::after {
+      content: '';
+      position: absolute;
+      width: inherit;
+      border-left: inherit;
+      z-index: -1;
+    }
+
+    li::before {
+      height: 80%;
+      top: 10%;
+      left: calc(-0.15em - 0.08em * 2);
+      filter: brightness(0.8);
+    }
+
+    li::after {
+      height: 60%;
+      top: 20%;
+      left: calc(-0.15em * 2 - 0.08em * 3);
+      filter: brightness(0.6);
+    }
+
+    li span {
+      position: relative;
+      height: 120%;
+      top: -10%;
+      box-sizing: border-box;
+      border: 0.08em solid;
+      background-color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: sans-serif;
+      text-transform: capitalize;
+      transform: translateX(calc(-0.15em * 3 - 0.08em * 2));
+      transition: 0.3s;
+    }
+
+    li:hover span {
+      transform: translateX(0.15em);
+    }
+  </style>
+
+</head>
+
+<body>
+  <div style="width: 100%;max-height:900px;overflow-y: scroll;">
+    <!--diaplay messages-->
+
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" id="alert-message-div">
+      <strong>Booky Books!</strong> {{message}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <script>
+        let timeout = 5000;
+        let div = document.getElementById('alert-message-div');
+        setTimeout((resp) => {
+          div.style.display = "none"
+
+        }, timeout);
+      </script>
+    </div>
+    {% endfor %}
+
+    <div class="sideMenuDiv" id="sideMenuDiv">
+
+      <button type="button" id="toggleBtn2"
+        style="background-color: transparent;border: none; width:1vw;height:1vw;margin-top: 10px;margin-left: 100px;"
+        onclick="showMenuDiv()"><img src="{%static 'images/toggler.png'%}" alt="toggler" width="30vw"
+          height="30vw"></button>
+      {% if request.user.is_authenticated %}
+      <br><br><br>
+      <a href="/user/{{request.user.id}}/edit" style="color:white"><img src="{% static 'images/settings.png'%}"
+          widht="30px" height="18px" class="settingsbtn" title="settings" />settings</a>
+      <br><br>
+      <a id="mybtn12" style="color:white;"><img src="{% static 'images/logout.png'%}" widht="30px" height="18px"
+          class="logoutbtn" title="logout"></img>Logout</a>
+      {% else %}
+      <br><br><br>
+      <button id="mybtn12" class="sideMenuButtons"><img src="{%static 'images/login2.png'%}" width="24px" height="20px">
+        Login</button>
+      <br><br>
+      <a href="/user/signup"><button class="sideMenuButtons"><img src="{%static 'images/signup3.png'%}" alt=""
+            width="24px" height="20px"> Signup</button></a>
+      {% endif %}
+      <br><br>
+      <a class="nav-link nav_color" href="/books"><button class="sideMenuButtons"><img
+            src="{%static 'images/books2.png'%}" alt="" width="24px" height="20px"> All Books</button></a>
+      <br>
+      <a class="nav-link nav_color" href="/book-publisher/new-book/"><button class="sideMenuButtons"><img
+            src="{%static 'images/add.png'%}" width="24px" height="24px"> Add Book</button></a>
+      {% if request.user.is_authenticated %}
+      <br>
+      <a class="nav-link nav_color" href="/mybooks"><button class="sideMenuButtons"><img
+            src="{%static 'images/mybooks.png'%}" width="24px" height="20px" alt=""> My Books</button></a>
+      <br>
+      <a class="nav-link nav_color" href="/my-liked-books/"><button class="sideMenuButtons"><img
+            src="{%static 'images/like.png'%}" width="24px" height="20px" alt=""> Liked Books</button></a>
+      <br>
+      <a class="nav-link nav_color" href="/user/forgot-password"><button class="sideMenuButtons"><img
+            src="{%static 'images/like.png'%}" width="24px" height="20px" alt=""> Change Password</button></a>
+      <br>
+      {% endif %}
+    </div>
+    <script>
+      let toggleBtn = document.getElementById('toogleBtn')
+      let sideMenuDiv = document.getElementById('sideMenuDiv')
+      let tButtondiv = document.getElementById('tButton-div')
+      sideMenuDiv.style.display = "none";
+      function showMenuDiv() {
+        if (sideMenuDiv.style.display == "none") {
+
+          sideMenuDiv.style.display = "";
+          tButtondiv.style.display = "none";
+        }
+        else {
+          sideMenuDiv.style.display = "none";
+
+          tButtondiv.style.display = "";
+        }
+      }
+    </script>
+
+
+    <!-- pc view side div -->
+    <div style="position: absolute;">
+      <button type="button" onclick="show_pc_side_div()" id="pc_toggler_side_div_button"
+        style="background-color: transparent;border:none;"><img src="{%static 'images/toggler.png'%}" alt="tog"
+        width="30px" height="30px"></button>
+        <div style="position: absolute;top:0px;left:40px">
+          <button type="button" onclick="history.back()" id="pc_toggler_side_div_button" style="background-color: transparent;border:none;color:white;font-size: xx-large;cursor: pointer;"><img src="{%static 'images/back.png' %}" alt="back" style="width:30px" ></button>
+        </div>
+      </div>
+    <div style="float: right;width: 70%;color:white !important;display: flex;">
+      <div>
+      <form method="get" action="/search/" style="max-width: 100%;height:0px;">
+        <input type="search" placeholder="Search"  name="query" id="query" style="width:600px;border-radius: 20px;height: 40px;">
+        <button type="submit" style="background-color: transparent;border: none; cursor: pointer;"><img src="{%static 'images/search1.png'%}" alt="s" style="width:30px;height:30px"></button>
+      </form>
+    </div>
+    {%if request.user.is_authenticated%}
+      <a style="margin-left: auto; margin-right: 30px;" href="/book-publisher/book/feedback/view"><img
+          src="{%static 'images/notification.png'%}" alt="notify" style="width: 30px;height: 30px;"><span
+          class="top-0 start-100 translate-middle badge rounded-pill bg-danger" style="color:white">
+          {%if user_feedback%}
+          {{user_feedback_length}}
+          {%else%}
+          0
+          {%endif%}
+
+        </span></a>
+        {%endif%}
+    </div>
+    <div id="pc_side_div"
+      style="width: 15%; max-height:750px;height: 750px; z-index: 100;display: none;flex-direction: column;background-color: rgba(0, 0, 0, 0.564);float: left;position: absolute;">
+      <div>
+        <button onclick="show_pc_side_div()" style="background-color: transparent;border:none;"><img
+            src="{%static 'images/toggler.png'%}" alt="tog" width="30px" height="30px"></button>
+      </div>
+      <div style="align-self:auto;margin-left:20px;">
+        <ul>
+          {%if request.user.is_authenticated%}
+          <li><span><a style="color: orange;" href="/">Home</a></span></li>
+          <li><span><a style="color: orange;" href="/book-publisher/new-book">Add Book</a></span></li>
+          <li><span><a style="color: orange;" href="/mybooks">My Books</a></span></li>
+          <li><span><a style="color: orange;" href="/my-liked-books/">Liked Books</a></span></li>
+          <li><span><a style="color: orange;" href="/user/{{request.user.id}}/edit">Settings</a></span></li>
+          <form action="/user/{{request.user.id}}/logout" method="post">
+            {%csrf_token%}
+            <li><span><a style="color: orange;"><button type="submit"
+              style="color: orange;background-color: transparent;border: none;">Logout</button></a></span></li>
+            </form>
+          <li><span><button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;background-color: transparent;border: none;color: orange;">
+            {%if gener %}
+            Gener | {{gener | capfirst}} ^
+            {%else%}
+            Gener ^
+            {%endif%}
+          </button>
+          <!-- gener list -->
+          <div class="dropdown-menu" style="z-index: 10;">
+            <a class="dropdown-item" href="/books/">All</a>
+            <a class="dropdown-item" href="/book-gener/romantic/">Romantic</a>
+            <a class="dropdown-item" href="/book-gener/fiction/">Fiction</a>
+            <a class="dropdown-item" href="/book-gener/horror/">Horror</a>
+            <a class="dropdown-item" href="/book-gener/novel/">Novel</a>
+            <a class="dropdown-item" href="/book-gener/action/">Action</a>
+            <a class="dropdown-item" href="/book-gener/science fiction/">Si-fi</a>
+          </div></span></li>
+          
+            {%else%}
+          <li><span><a style="color: orange;" href="/">Home</a></span></li>
+          <li><span><a style="color: orange;" href="/user/signup">Signup</a></span></li>
+          <li><span><a style="color: orange;" href="/user/login">Login</a></span></li>
+          <li><span><button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;background-color: transparent;border: none;color: orange;">
+            {%if gener %}
+            Gener | {{gener | capfirst}} ^
+            {%else%}
+            Gener ^
+            {%endif%}
+          </button>
+          <!-- gener list -->
+          <div class="dropdown-menu" style="z-index: 10;">
+            <a class="dropdown-item" href="/books/">All</a>
+            <a class="dropdown-item" href="/book-gener/romantic/">Romantic</a>
+            <a class="dropdown-item" href="/book-gener/fiction/">Fiction</a>
+            <a class="dropdown-item" href="/book-gener/horror/">Horror</a>
+            <a class="dropdown-item" href="/book-gener/novel/">Novel</a>
+            <a class="dropdown-item" href="/book-gener/action/">Action</a>
+            <a class="dropdown-item" href="/book-gener/science fiction/">Si-fi</a>
+          </div></span></li>
+          {%endif%}
+        </ul>
+      </div>
+    </div>
+
+
+    <!-- for mobile view -->
+    <!-- <div class="tHome">
+  
+</div> -->
+    <div class="tButton-div" id="tButton-div">
+      <a class="tHome" href="/"><img src="{%static 'images/home.png'%}" width="40px" height="40px" /></a>
+      <button type="button" id="toggleBtn"
+        style="background-color: transparent;border: none; width:1vw;height:1vw;margin-top: 10px;margin-left: 78%;"
+        onclick="showMenuDiv()"><img src="{%static 'images/toggler.png'%}" alt="toggler" width="30vw"
+          height="30vw"></button>
+
+
+    </div>
+
+    <div style="width: 100%;float: left;" id="main_books_area">
+      {%block contentarea%}
+      {%endblock%}
+    </div>
+
+    <script>
+      let pc_side_div = document.getElementById('pc_side_div');
+      let toggler_button = document.getElementById('pc_toggler_side_div_button');
+      function show_pc_side_div() {
+        if (pc_side_div.style.display == "flex") {
+          pc_side_div.style.display = "none";
+          toggler_button.style.display = "";
+        }
+        else {
+          pc_side_div.style.display = "flex";
+          toggler_button.style.display = "none";
+
+        }
+      }
+    </script>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close no" onclick="cancelRequest()">&times;</span>
+        <p>
+          {% if request.user.is_authenticated %}
+        <form action="/user/{{request.user.id}}/logout" method="post">
+          {%csrf_token%}
+
+          <label for="" style="color:black">Are you sure you want to logout?</label>
+          <br>
+          <button type="submit" class="btn btn-danger">Yes</button>
+          <button type="button" class="btn btn-primary no" onclick="cancelRequest()">No</button>
+
+        </form>
+        {% else %}
+        <form action="/user/login" method="post">
+          {%csrf_token%}
+          <div class="form-group">
+            <label for="" style="color:black">Email</label>
+            <input type="text" name="email" id="email" class="form-control" style="width:35%" />
+          </div>
+          <div class="form-group">
+            <label for="" style="color:black">Password</label>
+            <input type="password" name="password" id="password" class="form-control" style="width:35%" />
+          </div>
+          <br>
+          <button type="submit" class="btn btn-primary">Login</button>
+          <p>Don't have account? <a href="/user/signup">Register</a></p>
+          <p><a href="/user/forgot-password">Forgot Password?</a>
+          <p>
+        </form>
+
+        {% endif %}
+        </p>
+      </div>
+
+    </div>
+
+
+
+
+    <script>
+      // Get the modal
+      var modal = document.getElementById("myModal");
+
+      // Get the button that opens the modal
+      // var btn = document.getElementById("mybtn2");
+      var btn12 = document.getElementById("mybtn12");
+
+
+
+      // When the user clicks on the button, open the modal
+      // btn.onclick = function() {
+      //   modal.style.display = "block";
+      // }
+      btn12.onclick = function () {
+        modal.style.display = "block";
+      }
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+
+      // Get the modal
+
+
+      // Get the button that opens the modal
+      // var btn21 = document.getElementById("mybtn2");
+      var btn22 = document.getElementById("mybtn12");
+
+
+      // When the user clicks on the button, open the modal
+      // btn21.onclick = function() {
+      //   modal.style.display = "block";
+      // }
+      btn22.onclick = function () {
+        modal.style.display = "block";
+      }
+
+
+      function cancelRequest() {
+        let modal = document.getElementById("myModal");
+        modal.style.display = "none";
+      }
+    </script>
+  </div>
+</body>
+
+</html>

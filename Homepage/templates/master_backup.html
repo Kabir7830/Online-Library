@@ -1,0 +1,265 @@
+<html>
+    <head>
+        {%load static%}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--CSS link-->
+        <link rel="stylesheet" href="{% static 'css/button.css' %}">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <!--jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="{% static 'css/myButtons.css'%}">
+        <link rel="stylesheet" href="{% static 'css/gener.css'%}">
+        <link rel="stylesheet" href="{% static 'css/mainhead1.css'%}">
+        <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+        <link rel="stylesheet" href="{% static 'css/sideBarToggler.css' %}">
+        <style>
+
+            body {
+                /* {% comment %} background: #2c3e50; {% endcomment %} */
+                background-image: url("{% static 'images/bg1.jpg'%}");
+                background-size: cover;
+                background-repeat: no-repeat;
+                overflow-y: hidden;
+              }
+            </style>
+            
+    </head>
+    <body>
+      <div style="width: 100%;max-height:900px;overflow-y: scroll;">
+        <!--diaplay messages-->
+        
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" id="alert-message-div">
+          <strong>Booky Books!</strong> {{message}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          <script>
+              let timeout = 5000;
+              let div = document.getElementById('alert-message-div');
+              setTimeout((resp) => {
+                  div.style.display = "none"
+                  
+              }, timeout);
+          </script>
+        </div>
+        {% endfor %}
+        
+        <div class="sideMenuDiv" id="sideMenuDiv">
+              
+          <button type="button" id="toggleBtn2" style="background-color: transparent;border: none; width:1vw;height:1vw;margin-top: 10px;margin-left: 100px;" onclick="showMenuDiv()"><img src="{%static 'images/toggler.png'%}" alt="toggler"  width="30vw" height="30vw" ></button>
+          {% if request.user.is_authenticated %}
+          <br><br><br>
+          <a href="/user/{{request.user.id}}/edit" style="color:white"><img src="{% static 'images/settings.png'%}" widht="30px" height="18px" class="settingsbtn" title="settings" />settings</a>
+          <br><br>
+          <a  id="mybtn12" style="color:white;"><img src="{% static 'images/logout.png'%}" widht="30px" height="18px" class="logoutbtn" title="logout"></img>Logout</a>
+          {% else %}
+          <br><br><br>
+          <button id="mybtn12" class="sideMenuButtons"><img src="{%static 'images/login2.png'%}" width="24px" height="20px"> Login</button>
+          <br><br>
+          <a href="/user/signup"><button class="sideMenuButtons"><img src="{%static 'images/signup3.png'%}" alt=""  width="24px" height="20px"> Signup</button></a>
+          {% endif %}
+          <br><br>
+          <a class="nav-link nav_color" href="/books" ><button class="sideMenuButtons"><img src="{%static 'images/books2.png'%}" alt=""  width="24px" height="20px"> All Books</button></a>
+          <br>
+          <a class="nav-link nav_color" href="/book-publisher/new-book/"><button class="sideMenuButtons"><img src="{%static 'images/add.png'%}"  width="24px" height="24px"> Add Book</button></a> 
+          {% if request.user.is_authenticated %}
+          <br>
+          <a class="nav-link nav_color" href="/mybooks"><button class="sideMenuButtons"><img src="{%static 'images/mybooks.png'%}"  width="24px" height="20px" alt=""> My Books</button></a> 
+          <br>
+          <a class="nav-link nav_color" href="/my-liked-books/"><button  class="sideMenuButtons"><img src="{%static 'images/like.png'%}"  width="24px" height="20px" alt=""> Liked Books</button></a> 
+          <br>
+          <a class="nav-link nav_color" href="/user/forgot-password"><button  class="sideMenuButtons"><img src="{%static 'images/like.png'%}"  width="24px" height="20px" alt=""> Change Password</button></a> 
+          <br>
+          {% endif %}
+      </div>
+      <script>
+        let toggleBtn = document.getElementById('toogleBtn')
+        let sideMenuDiv = document.getElementById('sideMenuDiv')
+        let tButtondiv = document.getElementById('tButton-div')
+        sideMenuDiv.style.display = "none";
+        function showMenuDiv()
+        {
+          if (sideMenuDiv.style.display == "none")
+          {
+      
+            sideMenuDiv.style.display = "";
+            tButtondiv.style.display = "none";
+          }
+          else{
+            sideMenuDiv.style.display = "none";
+            
+            tButtondiv.style.display = "";
+          }
+        }
+      </script>
+
+        <nav style="display:contents; align-items:stretch;">
+
+                <div style="width: 100%; float: left; display: contents;">
+
+                  <ul class="navbar-nav toggle-ul" style="flex-direction: row;">
+                      <li class="nav-item">
+                      <a class="nav-link nav_color" ><button class="Mybtn fifth" onclick="history.back()">&leftarrow;</button></a> 
+                      </li>         
+                      <li class="nav-item">
+                      <a class="nav-link nav_color" href="/books"><button class="Mybtn myRed">Books</button></a> 
+                      </li>         
+                      <li>
+                        <a class="nav-link nav_color" href="/book-publisher/new-book/"><button class="Mybtn myGreen" style="width: 181px;">Add Book</button></a> 
+                      </li>
+                      {% if  request.user.is_authenticated%}
+                      <li>
+                        <a class="nav-link nav_color" href="/mybooks"><button class="Mybtn myGreen" style="width: 181px;">My Books</button></a> 
+                      </li>  
+                      <li>
+                      <a class="nav-link nav_color" href="/my-liked-books/"><button class="Mybtn myYellow" style="width: 205px;">Liked Books</button></a> 
+                      </li> 
+                      <a href="/book-publisher/book/feedback/view" style="align-self: center;"><button type="button" class="btn btn-primary position-relative" style="height:50px;align-self: center;">
+                        Feedback
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                          {{user_feedback_length }}
+                        </span>
+                      </button></a>
+
+                      {% endif %}
+                      
+                      
+                {% if request.user.is_authenticated %}
+                  <div style="text-align: right;height: 100px;margin-left: auto;align-self: center;height: 12%;margin-right: 40px;">
+                    <a href="/user/{{request.user.id}}/edit"><img src="{% static 'images/settings.png'%}" widht="50px" height="38px" class="settingsbtn" title="settings"></img></a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a  id="mybtn2"><img src="{% static 'images/logout.png'%}" widht="50px" height="38px" class="logoutbtn" title="logout"></img></a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a  id="mybtn2"><img src="{% static 'images/notification.png'%}" widht="50px" height="38px" class="logoutbtn" title="logout"></img><span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      12
+                    </span></a>
+                  </div>
+                    {% else %}
+                    <div style="text-align: right;height: 100px;margin-left: auto;">
+                    {% comment %} <a href="/user/login"><button class="loginbtn" id="myBtn">Login</button></a> {% endcomment %}
+                    <button class="loginbtn" id="mybtn2">Login</button>
+                    <a href="/user/signup"><button class="signupbtn">Signup</button></a>
+                  </div>         
+                  {% endif %}
+                    </ul>
+                </div>
+             
+        </nav>
+
+<!-- for mobile view -->
+<!-- <div class="tHome">
+  
+</div> -->
+<div class="tButton-div" id="tButton-div">
+  <a class="tHome" href="/"><img src="{%static 'images/home.png'%}" width="40px" height="40px" /></a>
+    <button type="button" id="toggleBtn" style="background-color: transparent;border: none; width:1vw;height:1vw;margin-top: 10px;margin-left: 78%;" onclick="showMenuDiv()"><img src="{%static 'images/toggler.png'%}" alt="toggler"  width="30vw" height="30vw" ></button>
+  
+    
+</div>
+
+        <div >
+            {%block contentarea%}
+            {%endblock%}
+        </div>
+        
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close no" onclick="cancelRequest()">&times;</span>
+      <p>
+          {% if request.user.is_authenticated %}
+          <form action="/user/{{request.user.id}}/logout" method="post">
+              {%csrf_token%}
+                
+            <label for="" style="color:black">Are you sure you want to logout?</label>
+            <br>
+            <button type="submit" class="btn btn-danger">Yes</button>
+            <button type="button" class="btn btn-primary no" onclick="cancelRequest()">No</button>
+           
+        </form>
+        {% else %}
+          <form action="/user/login" method="post">
+              {%csrf_token%}
+              <div class="form-group">
+                  <label for="" style="color:black">Email</label>
+                  <input type="text" name="email" id="email" class="form-control" style="width:35%" />
+                </div>
+              <div class="form-group">
+                  <label for="" style="color:black">Password</label>
+                  <input type="password" name="password" id="password" class="form-control" style="width:35%" />
+              </div>
+              <br>
+              <button type="submit" class="btn btn-primary">Login</button>
+              <p>Don't have account? <a href="/user/signup">Register</a></p>
+              <p><a href="/user/forgot-password">Forgot Password?</a><p>
+            </form>
+           
+              {% endif %}
+      </p>
+    </div>
+  
+  </div>
+  
+
+  
+
+<script>
+    // Get the modal
+  var modal = document.getElementById("myModal");
+
+  // Get the button that opens the modal
+  var btn = document.getElementById("mybtn2");
+  var btn12 = document.getElementById("mybtn12");
+
+
+
+  // When the user clicks on the button, open the modal
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+  btn12.onclick = function() {
+    modal.style.display = "block";
+  }
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+  // Get the modal
+
+
+  // Get the button that opens the modal
+  var btn21 = document.getElementById("mybtn2");
+  var btn22 = document.getElementById("mybtn12");
+
+
+  // When the user clicks on the button, open the modal
+  btn21.onclick = function() {
+    modal.style.display = "block";
+  }
+  btn22.onclick = function() {
+    modal.style.display = "block";
+  }
+
+
+      function cancelRequest()
+          {
+              let modal = document.getElementById("myModal");
+              modal.style.display = "none";
+          }
+</script>
+</div>
+    </body>
+</html>

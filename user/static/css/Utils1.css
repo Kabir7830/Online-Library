@@ -1,0 +1,42 @@
+.gener-btn{
+    padding:10;
+    margin-top: 10px;
+    
+}
+.dropdown-item:hover{
+    background-color: #2ecc71;
+    color:white;
+}
+
+.search-btn{
+    margin-left: -45px;
+    height: 36px;
+    border:none;
+}
+.search-form{
+    display: flex;
+    background-color:#efefef;
+}
+
+.searchbtn{
+    margin-left: -45px;
+    height: 41px;
+
+}
+.form-div{
+    display: flex;
+    align-items: center;
+}
+
+.menuDiv{
+    width:100%; 
+    border: solid; 
+    margin-top:100px; 
+    display: flex;
+}
+
+.search-logo{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+}

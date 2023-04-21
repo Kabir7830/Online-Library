@@ -1,0 +1,121 @@
+{% extends 'books.html' %}
+{% block  booksarea%}
+
+
+<div id="id_search_page">
+  <label for="" class="gener" id="search_label"></label>
+</div>
+<script type="text/javascript">
+    
+    
+    var Length = Number("{{length}}");
+    var quo = Math.floor(Length/4);
+    var rem = (Length%4);
+    var total_groups = quo+rem;
+    var count = 0;
+    var group_number = 1;
+    var col;
+    var heading ;
+    var front;
+    var inner;
+    var innerback;
+    var description;
+    var container;
+    var card_group;
+    var breaktag = document.createElement("br");
+    var root=document.querySelector("div[id='id_search_page']");
+    var back;
+    var cols;
+    var div_no = 5
+    $(window).resize(resizeFn())
+
+    function resizeFn()
+    {
+      if (screen.width<600)
+      {
+        div_no = 2
+      }
+      else{
+        div_no = 5
+      }
+    }
+    let label = document.querySelector("label[id='search_label']");
+    label.innerHTML = 'Results for : {{queryName}}';
+
+
+  document.write("{%for book in books%}")
+  // for (let i=1;i<=Number("{{length}}");i++)
+    {% comment %} if ("{{book.gener | lower}}" == "{{query | lower}}" || "{{book.bookTitle | lower}}" == "{{query | lower}}" || "{{book.authorName | lower}}" == "{{query | lower}}" || "{{book.name | lower}}" == "{{query | lower}}") {% endcomment %}
+  {
+    {
+        if ((count%div_no)==0)
+        {
+            
+          
+           card_group = document.createElement('div');
+           Object.assign(card_group,{className:'card-group',id: `card_group${group_number++}`});
+        }
+        card =document.createElement('div');
+        Object.assign(card, {className: 'card'});
+        
+        container=document.createElement('div');
+        Object.assign(container, {className: 'container'});
+        
+        back=document.createElement('div');
+        Object.assign(back, {className: 'back'});
+    
+        front = document.createElement('div');
+        Object.assign(front, {className: 'front',style:"background-image:url(/media/{{book.bookThumbnail}})"});
+        
+        hyperlink = document.createElement('a');
+        Object.assign(hyperlink, {href:"/book-publisher/book/{{book.id}}/",title:"{{book.bookTitle}}"});
+    
+        inner = document.createElement('div');
+        Object.assign(inner, {className:'inner'});
+       
+        innerback = document.createElement('div');
+        Object.assign(innerback, {className:'inner'});
+    
+        heading = document.createElement('p');
+        heading.innerHTML = '{{book.bookTitle}}';
+        Object.assign(heading,{style:'font-size:small;z-index:1;'});
+    
+        description = document.createElement('p');
+        description.innerHTML = "<b>Publisher Name: {{book.name}}<br>Author: {{book.authorName}} <br> Gener: {{book.gener}} <br> Description: {{book.description | slice:'0:170'}}...</b>";
+        Object.assign(description,{className:'description'});
+    
+        innerback.appendChild(description);
+        back.appendChild(innerback);
+        front.appendChild(inner);
+        container.appendChild(back);
+        container.appendChild(front);
+        card.appendChild(container);
+        hyperlink.appendChild(card);
+        card_group.appendChild(hyperlink);
+        root.append(breaktag)
+        root.appendChild(card_group);
+        
+    
+        count = count+1;
+    }
+  }
+ 
+  document.write("{%endfor%}");
+
+    
+</script>
+<br><br><br>
+<center>
+  {%if books.has_previous %} {# whether the previous page exists #}
+      <a href="?query={{query}}&page={{books.previous_page_number}}" class="gener">{{books.previous_page_number}}</a> {# link to the prev page #}
+  {% endif %}
+  <span class="gener" style="color:skyblue;">{{books.number}}</span> {# the current page number #}
+  
+  {%if books.has_next %} {# whether the next page exists #}
+      <a href="?query={{query}}&page={{books.next_page_number}}" class="gener">{{books.next_page_number}}</a> {# link to the next page #}
+  {% endif %}
+</center>
+{% endblock booksarea %}
+
+
+

@@ -1,0 +1,27 @@
+
+#id_first_name{
+    width:13%;
+    display:inline;
+}
+
+#id_last_name{
+    width:12%;
+    display:inline;
+}
+label{
+    color:white;
+}
+
+input{
+    max-width: 25%;
+}
+
+@media screen and (max-width:567px) {
+
+    input{
+        max-width: 80%;
+    }
+    #id_first_name, #id_last_name{
+        width: 40%;
+    }
+}

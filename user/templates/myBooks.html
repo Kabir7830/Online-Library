@@ -1,0 +1,221 @@
+{% extends 'mainMaster1.html' %}
+{% block contentarea %}
+{% load static %}
+<style>
+  body{
+    background-image : url("{%static 'images/my_books.jpg'%}");
+    overflow-y: hidden;
+    
+  }
+</style>
+<link rel="stylesheet" href="{% static 'css/myButtons1.css'%}">
+<link rel="stylesheet" href="{% static 'css/flipcard1.css' %}">
+<link rel="stylesheet" href="{% static 'css/Utils1.css' %}">
+{% if books %}
+<div style="width: 100%;height: 900px;overflow-y: hidden;background-color: rgba(0, 0, 0, 0.504);z-index: -1;position: absolute;margin-top: 10%;">
+</div>
+<div id="myBooks-div">
+
+    <label>
+
+        <h1 style="color:white;">My Books</h1>
+    </label>
+</div>
+<script type="text/javascript">
+    var Length = Number("{{length}}");
+    var quo = Math.floor(Length/4);
+    var rem = (Length%4);
+    var total_groups = quo+rem;
+    var count = 0;
+    var group_number = 1;
+    var col;
+    var heading ;
+    var front;
+    var inner;
+    var innerback;
+    var description;
+    var container;
+    var card_group;
+    var breaktag = document.createElement("br");
+    var root=document.querySelector("div[id='myBooks-div']");
+    var back;
+    var cols;
+    
+
+
+    document.write("{%for book in books%}")
+  // for (let i=1;i<=Number("{{length}}");i++)
+    {% comment %} if ("{{book.gener | lower}}" == "{{query | lower}}" || "{{book.bookTitle | lower}}" == "{{query | lower}}" || "{{book.authorName | lower}}" == "{{query | lower}}" || "{{book.name | lower}}" == "{{query | lower}}") {% endcomment %}
+  {
+    {
+        if ((count%5)==0)
+        {
+            
+          
+           card_group = document.createElement('div');
+           Object.assign(card_group,{className:'card-group',id: `card_group${group_number++}`});
+        }
+        card =document.createElement('div');
+        Object.assign(card, {className: 'card'});
+        
+        container=document.createElement('div');
+        Object.assign(container, {className: 'container'});
+        
+        back=document.createElement('div');
+        Object.assign(back, {className: 'back'});
+    
+        front = document.createElement('div');
+        Object.assign(front, {className: 'front',style:"background-image:url(/media/{{book.bookThumbnail}})"});
+        
+        hyperlink = document.createElement('a');
+        Object.assign(hyperlink, {href:"/book-publisher/book/{{book.id}}/edit",title:"{{book.bookTitle}}"});
+    
+        inner = document.createElement('div');
+        Object.assign(inner, {className:'inner'});
+       
+        innerback = document.createElement('div');
+        Object.assign(innerback, {className:'inner'});
+    
+        heading = document.createElement('p');
+        heading.innerHTML = '{{book.bookTitle}}';
+        Object.assign(heading,{style:'font-size:small;z-index:1;'});
+    
+        description = document.createElement('p');
+        description.innerHTML = "<b>Publisher Name: {{book.name}}<br>Author: {{book.authorName}} <br> Gener: {{book.gener}} <br> Description: {{book.description | slice:'0:170'}}...</b>";
+        Object.assign(description,{className:'description'});
+    
+        innerback.appendChild(description);
+        back.appendChild(innerback);
+        front.appendChild(inner);
+        container.appendChild(back);
+        container.appendChild(front);
+        card.appendChild(container);
+        hyperlink.appendChild(card);
+        card_group.appendChild(hyperlink);
+        root.append(breaktag)
+        root.appendChild(card_group);
+        
+    
+        count = count+1;
+    }
+  }
+ 
+    document.write("{%endfor%}");
+
+    
+</script>
+{% else %}
+<div style="width:100%;text-align:center">
+  <br>
+  <br>
+<h1 style="color:white;">You do not have any books published yet</h1>
+<a href="/book-publisher/new-book/"><button class="btn btn-primary">Publish Now</button>
+</div>
+{% endif %}
+
+<br>
+<br>
+<br>
+
+{% if draftbooks %}
+<div id="draftBooks">
+  <label>
+
+    <h1 style="color:white;">Drafts</h1>
+  </label>
+  <script type="text/javascript">
+    
+    
+    var count = 0;
+    var group_number = 1;
+    var col;
+    var heading ;
+    var front;
+    var inner;
+    var innerback;
+    var description;
+    var container;
+    var card_group;
+    var breaktag = document.createElement("br");
+    var root=document.querySelector("div[id='draftBooks']");
+    var back;
+    var cols;
+    
+  
+  
+    document.write("{%for book in draftbooks%}")
+    // for (let i=1;i<=Number("{{length}}");i++)
+    {% comment %} if ("{{book.gener | lower}}" == "{{query | lower}}" || "{{book.bookTitle | lower}}" == "{{query | lower}}" || "{{book.authorName | lower}}" == "{{query | lower}}" || "{{book.name | lower}}" == "{{query | lower}}") {% endcomment %}
+    {
+    {
+        if ((count%5)==0)
+        {
+            
+          
+           card_group = document.createElement('div');
+           Object.assign(card_group,{className:'card-group',id: `card_group${group_number++}`});
+        }
+        card =document.createElement('div');
+        Object.assign(card, {className: 'card'});
+        
+        container=document.createElement('div');
+        Object.assign(container, {className: 'container'});
+        
+        back=document.createElement('div');
+        Object.assign(back, {className: 'back'});
+    
+        front = document.createElement('div');
+        Object.assign(front, {className: 'front',style:"background-image:url(/media/{{book.bookThumbnail}})"});
+        
+        hyperlink = document.createElement('a');
+        Object.assign(hyperlink, {href:"/book-publisher/book/{{book.id}}/edit",title:"{{book.bookTitle}}"});
+    
+        inner = document.createElement('div');
+        Object.assign(inner, {className:'inner'});
+       
+        innerback = document.createElement('div');
+        Object.assign(innerback, {className:'inner'});
+    
+        heading = document.createElement('p');
+        heading.innerHTML = '{{book.bookTitle}}';
+        Object.assign(heading,{style:'font-size:small;z-index:1;'});
+    
+        description = document.createElement('p');
+        description.innerHTML = "<b>Publisher Name: {{book.name}}<br>Author: {{book.authorName}} <br> Gener: {{book.gener}} <br> Description: {{book.description | slice:'0:170'}}...</b>";
+        Object.assign(description,{className:'description'});
+    
+        innerback.appendChild(description);
+        back.appendChild(innerback);
+        front.appendChild(inner);
+        container.appendChild(back);
+        container.appendChild(front);
+        card.appendChild(container);
+        hyperlink.appendChild(card);
+        card_group.appendChild(hyperlink);
+        root.append(breaktag)
+        root.appendChild(card_group);
+        
+    
+        count = count+1;
+    }
+    }
+  
+    document.write("{%endfor%}");
+  </script>
+
+</div>
+{% endif %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div></div>
+.
+
+{% endblock contentarea %}
