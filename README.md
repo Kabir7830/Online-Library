@@ -15,7 +15,7 @@
 ## Feedback
 ![feedback2](https://user-images.githubusercontent.com/108128109/233680880-5fc46be6-f3f7-47b4-a32a-190db76c0df6.png)
 
-## Side Div
+## Side Nav
 ![side_div_after_login](https://user-images.githubusercontent.com/108128109/233681000-2b085b8f-8723-434f-81e9-221b47084f25.png)
 
 ## Add Book
