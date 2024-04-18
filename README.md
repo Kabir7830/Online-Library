@@ -1,5 +1,9 @@
 # Online-Library
 
+This is a practice project. The idea of this project was to give students an online place where they can find any type of books that are free to read. They can also publish their own books and let other students read and comment on it. This will not only give them space to read books but also a place where they can test their writing skills.
+
+Here is a quick look at the project interface. The interface is very basic. It can be improvised and can be turned into a well-looking interface. You can customize this code.
+
 ## Homepage
 ![homepage_after_login](https://user-images.githubusercontent.com/108128109/233679777-92bc2309-b2fa-4a56-b5ce-34e99342d9cd.png)
 
